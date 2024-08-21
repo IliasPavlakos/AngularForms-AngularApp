@@ -15,11 +15,13 @@ export class SignupComponent {
     email: new FormControl('', {
       validators: [Validators.required, Validators.email],
     }),
-    password: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(6)]
-    }),
-    confirmPassword: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(6)]
+    passwords: new FormGroup({
+      password: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(6)]
+      }),
+      confirmPassword: new FormControl('', {
+        validators: [Validators.required, Validators.minLength(6)]
+      }),
     }),
     firstName: new FormControl('', {
       validators: [Validators.required]
