@@ -1,6 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {of} from "rxjs";
+import {debounceTime, of} from "rxjs";
+
+let initialEmailValue = '';
+const savedForm = window.localStorage.getItem('login-form-data');
+if(savedForm) {
+  const loadedForm = JSON.parse(savedForm);
+  initialEmailValue = loadedForm.email;
+}
 
 @Component({
   selector: 'app-login',
@@ -11,7 +18,10 @@ import {of} from "rxjs";
     ReactiveFormsModule
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+
+  private destroyRef = inject(DestroyRef);
+
   form = new FormGroup({
     email: new FormControl('', {
       validators: [Validators.required, Validators.email], asyncValidators: [emailIsUnique]
@@ -20,6 +30,22 @@ export class LoginComponent {
       validators: [Validators.required, Validators.minLength(6), mustContainQuestionMark],
     }),
   });
+
+  ngOnInit(): void {
+
+    const savedForm = window.localStorage.getItem('login-form-data');
+    if(savedForm) {
+      const loadedForm = JSON.parse(savedForm);
+      this.form.patchValue({
+        email: loadedForm.email,
+      });
+    }
+
+    const subscription = this.form.valueChanges.pipe(debounceTime(500)).subscribe({
+      next: (value) => window.localStorage.setItem('login-form-data', JSON.stringify({email: value.email})),
+    })
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  };
 
   onSubmit() {
     console.log(this.form);
