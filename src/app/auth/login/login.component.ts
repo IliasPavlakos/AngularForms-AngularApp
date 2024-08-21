@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 export class LoginComponent {
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6), mustContainQuestionMark]),
   });
 
   onSubmit() {
@@ -27,4 +27,12 @@ export class LoginComponent {
   get passwordIsInvalid() {
     return !this.form.controls.password.untouched && this.form.controls.password.dirty && this.form.controls.password.invalid;
   }
+}
+
+function mustContainQuestionMark(control: AbstractControl){
+  if(control.value.includes('?')){
+    return null;
+  }
+
+  return { doesNotContainQuestionMark: true };
 }
