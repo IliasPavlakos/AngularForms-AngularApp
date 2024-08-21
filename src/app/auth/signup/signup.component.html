@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <hr />
+  <hr/>
 
   <div>
     <div class="control-row">
@@ -72,18 +72,18 @@
       <div class="control-row">
         <div class="control">
           <label for="postal-code">Postal Code</label>
-          <input type="text" id="postal-code" name="postal-code"[formControl]="form.controls.postCode"/>
+          <input type="text" id="postal-code" name="postal-code" [formControl]="form.controls.postCode"/>
         </div>
 
         <div class="control">
           <label for="city">City</label>
-          <input type="text" id="city" name="city" [formControl]="form.controls.city" />
+          <input type="text" id="city" name="city" [formControl]="form.controls.city"/>
         </div>
       </div>
     </fieldset>
   </div>
 
-  <hr />
+  <hr/>
 
   <div class="control-row">
     <div class="control">
@@ -152,4 +152,10 @@
     <button type="reset" class="button button-flat" (click)="onReset()">Reset</button>
     <button type="submit" class="button">Sign up</button>
   </p>
+
+  @if (!form.valid && form.dirty && !form.untouched) {
+    <p class="control-error">
+      Invalid form - please check your input data
+    </p>
+  }
 </form>
