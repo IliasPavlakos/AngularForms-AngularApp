@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
@@ -18,13 +18,40 @@ export class SignupComponent {
     password: new FormControl('', {
       validators: [Validators.required, Validators.minLength(6)]
     }),
+    confirmPassword: new FormControl('', {
+      validators: [Validators.required, Validators.minLength(6)]
+    }),
+    firstName: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    lastName: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    street: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    Number: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    postCode: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    city: new FormControl('', {
+      validators: [Validators.required]
+    }),
+    role: new FormControl<'student' | 'teacher' | 'employee' | 'founder' | 'other'>('student', {
+      validators: [Validators.required]
+    }),
+    agree: new FormControl(false, {
+      validators: [Validators.required]
+    }),
   });
 
-  onSubmit(){
+  onSubmit() {
     console.log(this.form);
   }
 
-  onReset(){
+  onReset() {
     this.form.reset();
   }
 
